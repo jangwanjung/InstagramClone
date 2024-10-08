@@ -40,6 +40,8 @@ public class User {
     @Enumerated(EnumType.STRING)  //열거형으로타입을 데이터베이스에 String값으로 저장하겠다는 뜻
     private UserRole role;
 
+    private String email;
+
     private String provider;
 
     private String providerId;
