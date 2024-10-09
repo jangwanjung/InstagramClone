@@ -12,6 +12,8 @@ import project.instagramclone.domain.user.User;
 import project.instagramclone.domain.user.UserRepository;
 import project.instagramclone.dto.LoginUser;
 
+import java.util.function.Function;
+
 @RequiredArgsConstructor
 @Service
 public class PrincipalDetailsService implements UserDetailsService {
@@ -22,11 +24,16 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User userEntity = userRepository.findByUsername(username).get();
-        if(userEntity != null){
-            System.out.println("유저있음");
-            session.setAttribute("loginUser", new LoginUser(userEntity));
-        }
+        User userEntity = userRepository.findByUsername(username).
+                map(new Function<User, User>() {
+                    @Override
+                    public User apply(User t) {
+                        session.setAttribute("loginUser", new LoginUser(t));
+                        return t;
+                    }
+                })
+                .orElse(null);
+
         return new PrincipalDetails(userEntity);
     }
 
