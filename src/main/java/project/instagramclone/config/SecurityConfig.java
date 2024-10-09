@@ -1,5 +1,8 @@
 package project.instagramclone.config;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -9,9 +12,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import project.instagramclone.util.Script;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Configuration
 public class SecurityConfig {
@@ -33,7 +42,16 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin
                         .loginPage("/auth/loginForm")
                         .loginProcessingUrl("/auth/login") // 로그인 처리 URL
-                        /*.failureHandler(customFailureHandler)*/
+                        .failureHandler(new AuthenticationFailureHandler() {
+                            @Override
+                            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+                                                                AuthenticationException exception) throws IOException, ServletException {
+                                response.setContentType("text/html; charset=utf-8");
+                                PrintWriter out = response.getWriter();
+                                out.print(Script.back("유저네임 혹은 비밀번호를 찾을 수 없습니다."));
+                                return;
+                            }
+                        })
                         .defaultSuccessUrl("/") // 로그인 성공 후 리다이렉트 URL
                 )
                 /*.oauth2Login(oauth2Login -> oauth2Login
