@@ -1,12 +1,10 @@
 package project.instagramclone.web;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import project.instagramclone.dto.JoinReqDto;
+import project.instagramclone.web.dto.JoinReqDto;
 import project.instagramclone.service.UserService;
 
 @RequiredArgsConstructor

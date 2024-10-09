@@ -1,4 +1,4 @@
-package project.instagramclone.dto;
+package project.instagramclone.web.dto;
 
 import lombok.Data;
 import project.instagramclone.domain.user.User;

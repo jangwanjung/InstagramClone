@@ -1,4 +1,4 @@
-package project.instagramclone.dto;
+package project.instagramclone.web.dto;
 
 import lombok.Data;
 import project.instagramclone.domain.user.User;
@@ -21,5 +21,12 @@ public class LoginUser {
         this.role = user.getRole().getKey();
         this.provider = user.getProvider();
         this.providerId = user.getProviderId();
+    }
+
+    public User getUser(){
+        return User.builder()
+                .id(id)
+                .build();
+
     }
 }

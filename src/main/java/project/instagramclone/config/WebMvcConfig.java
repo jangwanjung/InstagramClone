@@ -11,7 +11,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import project.instagramclone.config.auth.LoginUserAnnotation;
-import project.instagramclone.dto.LoginUser;
+import project.instagramclone.web.dto.LoginUser;
 
 import java.util.List;
 

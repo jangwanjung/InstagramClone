@@ -5,7 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.instagramclone.domain.user.UserRepository;
-import project.instagramclone.dto.JoinReqDto;
+import project.instagramclone.web.dto.JoinReqDto;
 
 @RequiredArgsConstructor //생성자 주입을 임의의 코드없이 자동으로 설정해주는어노테이션이다
 @Service
