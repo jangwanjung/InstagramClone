@@ -1,5 +1,6 @@
 package project.instagramclone.config;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,41 +23,42 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
-                .csrf(AbstractHttpConfigurer::disable)  //csrf보호 비활성화
-                .formLogin(form -> form
-                        .loginPage("/auth/loginForm")
-                        .successForwardUrl("/")
-                        .failureForwardUrl("/auth/loginForm?error=true")
-                        .permitAll())
-                .authorizeHttpRequests(authorizeRequest ->
-                        authorizeRequest
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/","/user/**","/follow/**","/image/**")//이 주소로들어오면 인증이필요함
-                                .authenticated()
-                                .anyRequest()
-                                .permitAll()
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/","/user/**","/follow/**","/image/**").authenticated() // 인증된 사용자만 접근 가능
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // ROLE_ADMIN 권한 필요
+                        .anyRequest().permitAll()
                 )
-                .headers(
-                        headersConfigurer ->
-                                headersConfigurer
-                                        .frameOptions(
-                                                HeadersConfigurer.FrameOptionsConfig::sameOrigin
-                                        )
-                ); //클릭재킹방지코드
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/auth/loginForm")
+                        .loginProcessingUrl("/auth/login") // 로그인 처리 URL
+                        /*.failureHandler(customFailureHandler)*/
+                        .defaultSuccessUrl("/") // 로그인 성공 후 리다이렉트 URL
+                )
+                /*.oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/loginForm")
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                .userService(principalOauth2UserService) // OAuth2 로그인 사용자 서비스
+                        )
+                        .failureUrl("/loginForm?error=true")
+                        .defaultSuccessUrl("/")
+
+                )*/
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // 로그아웃 요청을 처리할 URL 설정
+                        .logoutSuccessUrl("/auth/loginForm") // 로그아웃 성공 시 리다이렉트할 URL 설정
+                        .addLogoutHandler((request, response, authentication) -> { // 로그아웃 핸들러 추가 (세션 무효화 처리)
+                            HttpSession session = request.getSession();
+                            session.invalidate();
+                        })
+                        .logoutSuccessHandler((request, response, authentication) -> // 로그아웃 성공 핸들러 추가 (리다이렉션 처리)
+                                response.sendRedirect("/auth/loginForm"))
+                        .deleteCookies("remember-me") // 로그아웃 시 쿠키 삭제 설정
+                        .invalidateHttpSession(true) // HTTP session reset
+                );
+
 
         return http.build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        // 정적 리소스 spring security 대상에서 제외
-        return (web) ->
-                web
-                        .ignoring()
-                        .requestMatchers(
-                                PathRequest.toStaticResources().atCommonLocations()
-                        );
     }
 }
