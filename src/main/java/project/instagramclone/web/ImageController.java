@@ -11,7 +11,6 @@ public class ImageController {
     @GetMapping({"","/","/image/feed"})
     public String feed(@AuthenticationPrincipal PrincipalDetails principal) {
         System.out.println(principal.getUsername());
-        a
         return "image/feed";
     }
 }
