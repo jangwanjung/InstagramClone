@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import project.instagramclone.domain.user.User;
 import project.instagramclone.domain.user.UserRepository;
-import project.instagramclone.web.dto.LoginUser;
+import project.instagramclone.config.auth.dto.LoginUser;
 
 import java.util.function.Function;
 

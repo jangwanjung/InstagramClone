@@ -3,15 +3,18 @@ package project.instagramclone.config;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 import project.instagramclone.config.auth.LoginUserAnnotation;
-import project.instagramclone.web.dto.LoginUser;
+import project.instagramclone.config.auth.dto.LoginUser;
 
 import java.util.List;
 
@@ -42,5 +45,18 @@ public class WebMvcConfig implements WebMvcConfigurer{
                 return httpSession.getAttribute("loginUser");
             }
         });
+    }
+
+    @Value("${file.path}")
+    private String uploadFolder;
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        WebMvcConfigurer.super.addResourceHandlers(registry);
+
+        registry.addResourceHandler("/resources/upload/**").addResourceLocations(uploadFolder)
+                .setCachePeriod(3600).resourceChain(true).addResolver(new PathResourceResolver());
+        //첫번째는 upload의 주소 //두번째는 upload폴더의 절대경로 //세번째는 캐시기간설정
+
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import project.instagramclone.config.auth.LoginUserAnnotation;
 import project.instagramclone.web.dto.ImageReqDto;
-import project.instagramclone.web.dto.LoginUser;
+import project.instagramclone.config.auth.dto.LoginUser;
 import project.instagramclone.service.ImageService;
 
 @RequiredArgsConstructor
