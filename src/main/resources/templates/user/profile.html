@@ -41,10 +41,12 @@
                     <span class="profile__stat-number" th:text="${respDto.imageCount}"></span> posts
                 </li>
                 <li class="profile__stat">
-                    <span class="profile__stat-number" th:text="${respDto.followerCount}"></span> followers
+                    <span class="profile__stat-number" th:text="${respDto.followerCount}"></span>
+                    <a th:href="@{/follow/followerList/{id}(id = ${respDto.user.id})}" style="color: black">followers</a>
                 </li>
                 <li class="profile__stat">
-                    <span class="profile__stat-number" th:text="${respDto.followingCount}"></span> following
+                    <span class="profile__stat-number" th:text="${respDto.followingCount}"></span>
+                    <a th:href="@{/follow/followingList/{id}(id = ${respDto.user.id})}" style="color: black;">following</a>
                 </li>
             </ul>
             <p class="profile__bio">

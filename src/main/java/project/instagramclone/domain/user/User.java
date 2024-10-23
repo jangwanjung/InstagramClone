@@ -6,9 +6,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import project.instagramclone.web.dto.FollowRespDto;
 
 import javax.management.relation.Role;
 import java.sql.Timestamp;
+
+@SqlResultSetMapping(
+        name = "FollowRespDtoMapping",
+        classes = @ConstructorResult(
+                targetClass = FollowRespDto.class,
+                columns = {
+                        @ColumnResult(name = "id", type = Integer.class),
+                        @ColumnResult(name = "username", type = String.class),
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "profileImage", type = String.class),
+                        @ColumnResult(name = "followState", type = Boolean.class),
+                        @ColumnResult(name = "equalUserState", type = Boolean.class),
+
+                }
+        )
+)
 
 @Entity
 @Builder

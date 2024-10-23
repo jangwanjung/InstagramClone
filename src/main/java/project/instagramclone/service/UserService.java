@@ -19,6 +19,7 @@ import project.instagramclone.web.dto.UserProfileImageRespDto;
 import project.instagramclone.web.dto.UserProfileRespDto;
 
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.function.Supplier;
 
 @RequiredArgsConstructor //생성자 주입을 임의의 코드없이 자동으로 설정해주는어노테이션이다
@@ -55,10 +56,12 @@ public class UserService {
                     }
                 });
         // 1.이미지들과 전체 이미지 카운트
-        String q = "select im.id as id, im.imageUrl as imageUrl, im.userId as userid," +
-                " (select count(*) from likes lk where lk.imageId = im.id) as likeCount," +
-                " (select count(*) from comment ct where ct.imageId = im.id) as commentCount" +
-                " from image im where im.userId = ?";
+        StringBuilder sb = new StringBuilder();
+        sb.append("select im.id as id, im.imageUrl as imageUrl, im.userId as userid,");
+        sb.append(" (select count(*) from likes lk where lk.imageId = im.id) as likeCount,");
+        sb.append(" (select count(*) from comment ct where ct.imageId = im.id) as commentCount");
+        sb.append(" from image im where im.userId = ?");
+        String q = sb.toString();
         Query query = em.createNativeQuery(q, "UserProfileImageRespDtoMapping").setParameter(1,id);  //UserProfileImageRespDtoMapping에 매핑된다
         //setParmeter에서 첫번째인자는 몇번째 ?인지이고 두번째인자는 무슨값이 들어갈지이다
         List<UserProfileImageRespDto> imagesEntity = query.getResultList();

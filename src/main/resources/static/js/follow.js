@@ -4,7 +4,7 @@ async function follow(pageUserId) {
     });
     let result = await response.text();
     if(result === 'ok'){
-        location.href = `/user/${pageUserId}`;
+        location.reload();
     }
 }
 async function unFollow(pageUserId) {
@@ -13,6 +13,6 @@ async function unFollow(pageUserId) {
     });
     let result = await response.text();
     if(result === 'ok'){
-        location.href = `/user/${pageUserId}`;
+        location.reload();
     }
 }

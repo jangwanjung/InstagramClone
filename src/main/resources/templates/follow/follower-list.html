@@ -1,0 +1,28 @@
+<div th:replace="layout/header :: header"></div>
+<main id="explore">
+    <ul class="explore__users u-default-box">
+        <div th:each="follower : ${followerList}">
+            <li class="explore__user">
+                <div class="explore__content">
+                    <a th:href="@{/user/{id}(id = ${follower.id})}">
+                        <img src="/images/avatar.jpg" />
+                    </a>
+                    <div class="explore__info">
+                        <span class="explore__username" th:text="${follower.username}"></span>
+                        <span class="explore__full-name" th:text="${follower.name}" ></span>
+                    </div>
+                </div>
+                <div th:unless="${follower.equalUserState}">
+                    <div th:if="${follower.followState}">
+                        <button th:onclick="unFollow([[${follower.id}]])" class="profile_edit_btn">팔로우</button>
+                    </div>
+                    <div th:unless="${follower.followState}">
+                        <button th:onclick="follow([[${follower.id}]])" class="profile_follow_btn">팔로우</button>
+                    </div>
+                </div>
+            </li>
+        </div>
+    </ul>
+</main>
+<script src="/js/follow.js"></script>
+<div th:replace="layout/footer :: footer"></div>
