@@ -1,5 +1,8 @@
 package project.instagramclone.service;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import project.instagramclone.domain.user.User;
 import project.instagramclone.domain.user.UserRepository;
 import project.instagramclone.handler.ex.MyUserIdNotFoundException;
 import project.instagramclone.web.dto.JoinReqDto;
+import project.instagramclone.web.dto.UserProfileImageRespDto;
 import project.instagramclone.web.dto.UserProfileRespDto;
 
 import java.util.List;
@@ -20,6 +24,8 @@ import java.util.function.Supplier;
 @Service
 public class UserService {
 
+    @PersistenceContext  //EntityManager을 주입받을려고 사용하는 어노테이션이다 @Autowired랑비슷
+    EntityManager em;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ImageRepository imageRepository;
@@ -47,7 +53,12 @@ public class UserService {
                     }
                 });
         // 1.이미지들과 전체 이미지 카운트
-        List<Image> imagesEntity = imageRepository.findByUserId(id);
+        String q = "select im.id as id, im.imageUrl as imageUrl, im.userId as userid," +
+                " (select count(*) from likes lk where lk.imageId = im.id) as likeCount," +
+                " (select count(*) from comment ct where ct.imageId = im.id) as commentCount" +
+                " from image im where im.userId = 1";
+        Query query = em.createNativeQuery(q, "UserProfileImageRespDtoMapping");  //
+        List<UserProfileImageRespDto> imagesEntity = query.getResultList();
         imageCount = imagesEntity.size();
         // 2.팔로우 수 조회(수정해야함)
         followerCount = 50;

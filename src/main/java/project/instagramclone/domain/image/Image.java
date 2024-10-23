@@ -9,9 +9,24 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import project.instagramclone.domain.tag.Tag;
 import project.instagramclone.domain.user.User;
+import project.instagramclone.web.dto.UserProfileImageRespDto;
 
 import java.sql.Timestamp;
 import java.util.List;
+
+@SqlResultSetMapping(
+        name = "UserProfileImageRespDtoMapping",
+        classes = @ConstructorResult(
+                targetClass = UserProfileImageRespDto.class,
+                columns = {
+                        @ColumnResult(name="id", type = Integer.class),
+                        @ColumnResult(name="imageUrl", type = String.class),
+                        @ColumnResult(name="userId", type = Integer.class),
+                        @ColumnResult(name="likeCount", type = Integer.class),
+                        @ColumnResult(name="commentCount", type = Integer.class),
+                }
+        )
+)
 
 @Entity
 @Data

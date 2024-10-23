@@ -48,7 +48,7 @@
                 <br/><br/>
                 <span th:if="${respDto.user.website}">
                         <a th:href="${respDto.user.website}" class="profile__link" th:text="${respDto.user.website}"></a>
-                    </span>
+                </span>
             </p>
         </div>
     </header>
@@ -57,15 +57,15 @@
         <!-- 유저가 업로드한 Feed 사진 -->
         <div th:each="image : ${respDto.images}">
             <div class="profile__photo">
-                <a href="image-detail.html">
+                <a href="#">
                     <img th:src="${'/upload/'+image.imageUrl}"/>
                 </a>
                 <div class="profile__photo-overlay">
                         <span class="profile__photo-stat"> 
-                            <i class="fa fa-heart"></i> <span th:text="1"></span>
+                            <i class="fa fa-heart"></i> <span th:text="${image.likeCount}"></span>
                         </span>
                     <span class="profile__photo-stat">
-                            <i class="fa fa-comment"></i> <span>22</span>
+                            <i class="fa fa-comment"></i> <span th:text="${image.commentCount}"></span>
                         </span>
                 </div>
             </div>

@@ -54,9 +54,12 @@ public class WebMvcConfig implements WebMvcConfigurer{
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         WebMvcConfigurer.super.addResourceHandlers(registry);
 
-        registry.addResourceHandler("/resources/upload/**").addResourceLocations(uploadFolder)
-                .setCachePeriod(3600).resourceChain(true).addResolver(new PathResourceResolver());
-        //첫번째는 upload의 주소 //두번째는 upload폴더의 절대경로 //세번째는 캐시기간설정
 
-    }
+        registry
+                .addResourceHandler("/resources/upload/**")
+                .addResourceLocations("file:///"+uploadFolder)
+                .setCachePeriod(3600)
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver());
+    }//첫번째는 upload의 주소 //두번째는 upload폴더의 절대경로 //세번째는 캐시기간설정*/
 }
