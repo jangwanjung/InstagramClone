@@ -57,7 +57,8 @@ public class UserService {
                 " (select count(*) from likes lk where lk.imageId = im.id) as likeCount," +
                 " (select count(*) from comment ct where ct.imageId = im.id) as commentCount" +
                 " from image im where im.userId = ?";
-        Query query = em.createNativeQuery(q, "UserProfileImageRespDtoMapping").setParameter(1,id);  //
+        Query query = em.createNativeQuery(q, "UserProfileImageRespDtoMapping").setParameter(1,id);  //UserProfileImageRespDtoMapping에 매핑된다
+        //setParmeter에서 첫번째인자는 몇번째 ?인지이고 두번째인자는 무슨값이 들어갈지이다
         List<UserProfileImageRespDto> imagesEntity = query.getResultList();
         imageCount = imagesEntity.size();
         // 2.팔로우 수 조회(수정해야함)
