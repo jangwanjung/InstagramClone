@@ -56,8 +56,8 @@ public class UserService {
         String q = "select im.id as id, im.imageUrl as imageUrl, im.userId as userid," +
                 " (select count(*) from likes lk where lk.imageId = im.id) as likeCount," +
                 " (select count(*) from comment ct where ct.imageId = im.id) as commentCount" +
-                " from image im where im.userId = 1";
-        Query query = em.createNativeQuery(q, "UserProfileImageRespDtoMapping");  //
+                " from image im where im.userId = ?";
+        Query query = em.createNativeQuery(q, "UserProfileImageRespDtoMapping").setParameter(1,id);  //
         List<UserProfileImageRespDto> imagesEntity = query.getResultList();
         imageCount = imagesEntity.size();
         // 2.팔로우 수 조회(수정해야함)
