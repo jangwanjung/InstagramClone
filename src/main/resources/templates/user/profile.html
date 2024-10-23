@@ -26,12 +26,12 @@
                 <div th:unless="${respDto.pageHost}">
                     <div th:if="${respDto.followState}">
                         <a  href="#">
-                            <button class="profile_edit_btn">팔로우 취소</button>
+                            <button th:onclick="unFollow([[${respDto.user.id}]])" class="profile_edit_btn">팔로우</button>
                         </a>
                     </div>
                     <div th:unless="${respDto.followState}">
                         <a  href="#">
-                            <button class="profile_edit_btn">팔로우</button>
+                            <button th:onclick="follow([[${respDto.user.id}]])" class="profile_follow_btn">팔로우</button>
                         </a>
                     </div>
                 </div>
@@ -103,5 +103,5 @@
 </script>
 
 <!-- 푸터 레이아웃 포함 -->
+<script src="/js/follow.js"></script>
 <div th:replace="layout/footer :: footer"></div>
-
