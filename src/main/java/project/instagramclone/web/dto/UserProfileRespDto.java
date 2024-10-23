@@ -20,4 +20,5 @@ public class UserProfileRespDto {
     private int followerCount;
     private int followingCount;
     private int imageCount;
+    private boolean followState;
 }

@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.instagramclone.config.auth.dto.LoginUser;
+import project.instagramclone.domain.follow.FollowRepository;
 import project.instagramclone.domain.image.Image;
 import project.instagramclone.domain.image.ImageRepository;
 import project.instagramclone.domain.user.User;
@@ -25,10 +26,10 @@ import java.util.function.Supplier;
 public class UserService {
 
     @PersistenceContext  //EntityManager을 주입받을려고 사용하는 어노테이션이다 @Autowired랑비슷
-    EntityManager em;
+    private EntityManager em;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ImageRepository imageRepository;
+    private final FollowRepository followRepository;
 
     @Transactional
     public void 회원가입(JoinReqDto joinReqDto) {
@@ -43,6 +44,7 @@ public class UserService {
         int imageCount;
         int followerCount;
         int followingCount;
+        boolean followState;
 
         User userEntity = userRepository.findById(id)
                 .orElseThrow(new Supplier<MyUserIdNotFoundException>(){
@@ -62,8 +64,9 @@ public class UserService {
         List<UserProfileImageRespDto> imagesEntity = query.getResultList();
         imageCount = imagesEntity.size();
         // 2.팔로우 수 조회(수정해야함)
-        followerCount = 50;
-        followingCount = 100;
+        followerCount = followRepository.mCountByFollower(id);
+        followingCount = followRepository.mCountByFollowing(id);
+        followState = followRepository.mFollowState(loginUser.getId(), id) == 1 ? true : false;
         // 3.최종마무리
         UserProfileRespDto userProfileRespDto =
                 UserProfileRespDto.builder()
@@ -73,6 +76,7 @@ public class UserService {
                         .imageCount(imageCount)
                         .user(userEntity)
                         .images(imagesEntity)
+                        .followState(followState)
                         .build();
 
         return userProfileRespDto;

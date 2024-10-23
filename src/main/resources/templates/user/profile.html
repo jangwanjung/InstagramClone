@@ -24,9 +24,16 @@
                 </div>
 
                 <div th:unless="${respDto.pageHost}">
-                    <a href="#">
-                        <button class="profile_edit_btn">팔로우</button>
-                    </a>
+                    <div th:if="${respDto.followState}">
+                        <a  href="#">
+                            <button class="profile_edit_btn">팔로우 취소</button>
+                        </a>
+                    </div>
+                    <div th:unless="${respDto.followState}">
+                        <a  href="#">
+                            <button class="profile_edit_btn">팔로우</button>
+                        </a>
+                    </div>
                 </div>
             </div>
             <ul class="profile__stats">
