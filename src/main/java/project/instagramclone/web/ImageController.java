@@ -2,6 +2,7 @@ package project.instagramclone.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import project.instagramclone.config.auth.LoginUserAnnotation;
@@ -16,8 +17,8 @@ public class ImageController {
     private final ImageService imageService;
 
     @GetMapping({"","/","/image/feed"})
-    public String feed(@LoginUserAnnotation LoginUser loginUser) {
-        System.out.println(loginUser);
+    public String feed(@LoginUserAnnotation LoginUser loginUser, Model model) {
+        model.addAttribute("id",loginUser.getId());
         return "image/feed";
     }
 
@@ -34,7 +35,8 @@ public class ImageController {
     }
 
     @GetMapping("/image/explore")
-    public String imageExplore(){
+    public String imageExplore(@LoginUserAnnotation LoginUser loginUser, Model model){
+        model.addAttribute("images", imageService.인기사진(loginUser.getId()));
         return "image/explore";
     }
 }
