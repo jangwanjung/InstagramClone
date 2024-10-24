@@ -31,6 +31,11 @@ public class ImageService {
     @Value("${file.path}")
     private String uploadFolder;
 
+    @Transactional(readOnly = true)
+    public List<Image> 인기사진(int loginUserId){
+        return imageRepository.mNonFollowImage(loginUserId);
+    }
+
     @Transactional
     public void 사진업로드(ImageReqDto imageReqDto, int userId) {
         User userEntity = userRepository.findById(userId).orElseThrow(null);

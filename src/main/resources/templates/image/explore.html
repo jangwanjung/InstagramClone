@@ -1,0 +1,13 @@
+<header th:replace="layout/header :: header"></header>
+<main id="profile">
+    <div class="profile__photo-grid">
+        <div th:each="image:${images}">
+            <div class="profile__photo">
+                <a th:href="@{/user/{id}(id = ${image.user.id})}">
+                    <img th:src="${'/upload/'+image.imageUrl}">
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="layout/footer :: footer"></footer>
