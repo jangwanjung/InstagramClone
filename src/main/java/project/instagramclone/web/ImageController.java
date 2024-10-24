@@ -17,8 +17,7 @@ public class ImageController {
     private final ImageService imageService;
 
     @GetMapping({"","/","/image/feed"})
-    public String feed(@LoginUserAnnotation LoginUser loginUser, Model model) {
-        model.addAttribute("id",loginUser.getId());
+    public String feed(@LoginUserAnnotation LoginUser loginUser) {
         return "image/feed";
     }
 
