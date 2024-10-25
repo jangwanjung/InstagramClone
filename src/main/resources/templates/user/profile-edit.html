@@ -1,0 +1,73 @@
+<div th:replace="layout/header :: header"></div>
+<main id="edit-profile">
+    <div class="edit-profile__container u-default-box">
+
+        <header class="edit-profile__header">
+            <div class="fucker-container">
+                <img th:src="${'/upload/'+user.profileImage}" />
+            </div>
+            <!-- master comments -->
+            <h1 class="edit-profile__username" th:text="${user.username}"></h1>
+        </header>
+
+        <form id="frm" class="edit-profile__form">
+            <input type="hidden" name="id" th:value="${user.id}"/>
+            <div class="edit-profile__row">
+                <label class="edit-profile__label">Name</label>
+                <input name="name" type="text"  th:value="${user.name}">
+            </div>
+            <div class="edit-profile__row">
+                <label class="edit-profile__label">Username</label>
+                <input type="text" th:value="${user.username}" readonly>
+            </div>
+            <div class="edit-profile__row">
+                <label class="edit-profile__label">Website</label>
+                <input name="website" type="text" th:value="${user.website}">
+            </div>
+            <div class="edit-profile__row">
+                <label class="edit-profile__label">Bio</label>
+                <input name="bio" type="text" th:value="${user.bio}">
+            </div>
+            <div class="edit-profile__row">
+                <label class="edit-profile__label" >Email</label>
+                <input type="email" th:value="${user.email}" readonly>
+            </div>
+            <div class="edit-profile__row">
+                <label class="edit-profile__label">Phone Number</label>
+                <input name="phone" type="text" th:value="${user.phone}">
+            </div>
+            <div class="edit-profile__row">
+                <label class="edit-profile__label">Gender</label>
+                <input name="gender" type="text" th:value="${user.gender}">
+            </div>
+            <div class="edit-profile__row">
+                <span></span>
+                <button onclick="userUpdate()" class="profile_follow_btn" type="button">
+                    회원수정
+                </button>
+            </div>
+        </form>
+
+    </div>
+</main>
+<script>
+    function userUpdate(){
+        let data = $("#frm").serialize();
+        console.log(1, data);
+
+        fetch("/user", {
+            method: "put",
+            body: data,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+            }
+        }).then(function(res){
+            return res.text();
+        }).then(function(res){
+            alert("회원수정 성공");
+            location.href = "/user/" + [[${user.id}]];
+        });
+    }
+
+</script>
+<div th:replace="layout/footer :: footer"></div>

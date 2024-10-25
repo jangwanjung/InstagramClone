@@ -4,9 +4,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import project.instagramclone.config.auth.dto.LoginUser;
 import project.instagramclone.domain.follow.FollowRepository;
 import project.instagramclone.domain.image.Image;
@@ -18,8 +20,13 @@ import project.instagramclone.web.dto.JoinReqDto;
 import project.instagramclone.web.dto.UserProfileImageRespDto;
 import project.instagramclone.web.dto.UserProfileRespDto;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 @RequiredArgsConstructor //생성자 주입을 임의의 코드없이 자동으로 설정해주는어노테이션이다
@@ -31,6 +38,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final FollowRepository followRepository;
+
+    @Value("${file.path}")
+    private String uploadFolder;
 
     @Transactional
     public void 회원가입(JoinReqDto joinReqDto) {
@@ -83,5 +93,40 @@ public class UserService {
                         .build();
 
         return userProfileRespDto;
+    }
+    @Transactional
+    public void 프로필사진업로드(LoginUser loginUser, MultipartFile file){
+        UUID uuid = UUID.randomUUID();
+        String imageFilename = uuid+"_"+ file.getOriginalFilename();
+        Path imageFilepath = Paths.get(uploadFolder+imageFilename);
+        try {
+            Files.write(imageFilepath, file.getBytes());
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        User userEntity = userRepository.findById(loginUser.getId()).orElseThrow(()->{
+            return new MyUserIdNotFoundException();
+        });
+        userEntity.setProfileImage(imageFilename);
+    }
+
+    @Transactional
+    public void 회원수정(User user){
+        User userEntity = userRepository.findById(user.getId()).orElseThrow(()->{
+            return new MyUserIdNotFoundException();
+        });
+        userEntity.setName(user.getName());
+        userEntity.setWebsite(user.getWebsite());
+        userEntity.setBio(user.getBio());
+        userEntity.setPhone(user.getPhone());
+        userEntity.setGender(user.getGender());
+    }
+
+    @Transactional(readOnly = true)
+    public User 회원정보(LoginUser loginUser){
+        User userEntity = userRepository.findById(loginUser.getId()).orElseThrow(()->{
+            return new MyUserIdNotFoundException();
+        });
+        return userEntity;
     }
 }

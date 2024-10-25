@@ -2,17 +2,17 @@
 <main id="profile">
     <header class="profile__header">
         <div class="avatar__container">
-            <form id="frm_profile_img" action="@{/user/profileUpload}" method="post" enctype="multipart/form-data">
+            <form id="frm_profile_img" action="/user/profileUpload" method="post" enctype="multipart/form-data">
                 <input type="file" name="profileImage" style="display: none;" />
             </form>
-            <img src="/images/avatar.jpg" id="profile_image" style="cursor: pointer" />
+            <img th:src="${'/upload/'+respDto.user.profileImage}" id="profile_image" style="cursor: pointer" />
         </div>
         <div class="profile__info">
             <div class="profile__title">
                 <h1 th:text="${respDto.user.username}"></h1>
 
                 <div th:if="${respDto.pageHost}">
-                    <a href="#">
+                    <a href="/user/profileEdit">
                         <button class="profile_edit_btn">회원수정</button>
                     </a>
                     <a href="/image/uploadForm">
