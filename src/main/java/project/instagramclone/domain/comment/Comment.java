@@ -29,7 +29,7 @@ public class Comment {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "iamgeId")
+    @JoinColumn(name = "imageId")
     private Image image;
 
     @CreationTimestamp

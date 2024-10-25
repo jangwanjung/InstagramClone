@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import project.instagramclone.domain.comment.Comment;
+import project.instagramclone.domain.like.Likes;
 import project.instagramclone.domain.tag.Tag;
 import project.instagramclone.domain.user.User;
 import project.instagramclone.web.dto.UserProfileImageRespDto;
@@ -54,6 +56,20 @@ public class Image {
     @JsonIgnoreProperties({"image"})
     private List<Tag> tags;
 
+    @JsonIgnoreProperties({"image"})
+    @OneToMany(mappedBy = "image")
+    private List<Comment> comments;
+
+    @JsonIgnoreProperties({"image"})
+    @OneToMany(mappedBy = "image")
+    private List<Likes> likes;
+
     @CreationTimestamp
     private Timestamp createDate;
+
+    @Transient //이 어노테이션을 사용하면 테이블에 칼럼이안만들어진다
+    private int likeCount;
+
+    @Transient
+    private boolean likeState;
 }
