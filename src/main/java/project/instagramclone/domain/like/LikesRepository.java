@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface LikesRepository extends JpaRepository<Likes, Integer> {
 
     @Modifying
-    @Query(value = "insert into likes(imageId, userId) valuse(?1, ?2)" ,nativeQuery = true)
+    @Query(value = "insert into likes(imageId, userId) values(?1, ?2)" ,nativeQuery = true)
     int mSave(int imageId, int loginUserId);
     //좋아요를 누르면 likes테이블에 삽입
 

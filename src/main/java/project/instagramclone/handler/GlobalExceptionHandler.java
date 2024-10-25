@@ -21,4 +21,9 @@ public class GlobalExceptionHandler { //이것을 사용하면 모든 컨트롤�
     public String myUsernameNotFoundException(Exception e){
         return Script.alert(e.getMessage());
     }
+
+    @ExceptionHandler(value =IllegalArgumentException.class)
+    public String myIllegalArgumentException(Exception e){
+        return Script.alert(e.getMessage());
+    }
 }

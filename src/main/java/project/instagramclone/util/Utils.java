@@ -9,7 +9,7 @@ public class Utils {
         String temp[] = tags.split("#");
         List<String> list = new ArrayList<String>();
 
-        for (int i = 0; i < temp.length; i++) {
+        for (int i = 1; i < temp.length; i++) {
             list.add(temp[i]);
         }
         return list;

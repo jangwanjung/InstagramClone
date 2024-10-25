@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.instagramclone.domain.follow.FollowRepository;
+import project.instagramclone.util.Script;
 import project.instagramclone.web.dto.FollowRespDto;
 
 import java.util.List;

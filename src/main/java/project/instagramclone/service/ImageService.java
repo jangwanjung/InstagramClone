@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.instagramclone.domain.image.Image;
 import project.instagramclone.domain.image.ImageRepository;
+import project.instagramclone.domain.like.Likes;
 import project.instagramclone.domain.tag.Tag;
 import project.instagramclone.domain.tag.TagRepository;
 import project.instagramclone.domain.user.User;
@@ -34,6 +35,20 @@ public class ImageService {
     @Transactional(readOnly = true)
     public List<Image> 인기사진(int loginUserId){
         return imageRepository.mNonFollowImage(loginUserId);
+    }
+
+    @Transactional
+    public List<Image> 피드사진(int loginUserId){
+        List<Image> images = imageRepository.mFeed(loginUserId);
+        for (Image image : images){
+            image.setLikeCount(image.getLikes().size());
+            for(Likes like : image.getLikes()){
+                if(like.getUser().getId() == loginUserId){
+                    image.setLikeState(true);
+                }
+            }
+        }
+        return images;
     }
 
     @Transactional
