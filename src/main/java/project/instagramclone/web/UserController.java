@@ -34,10 +34,12 @@ public class UserController {
     }
 
     @PostMapping("/user/profileUpload")
-    public String userProfileUpload(@RequestParam("profileImage") MultipartFile file,
+    public String userProfileUpload(@RequestParam("profileImage") MultipartFile file, int userId,
                                     @LoginUserAnnotation LoginUser loginUser, Model model) {
-        userService.프로필사진업로드(loginUser, file);
-        return "redirect:/user/"+loginUser.getId();
+        if(userId == loginUser.getId()){
+            userService.프로필사진업로드(loginUser, file);
+        }
+        return "redirect:/user/"+userId;
     }
 
     @PutMapping("/user")
