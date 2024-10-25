@@ -1,10 +1,16 @@
 package project.instagramclone.web.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import project.instagramclone.domain.user.User;
 import project.instagramclone.domain.user.UserRole;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class JoinReqDto {
     private String email;
     private String username;
