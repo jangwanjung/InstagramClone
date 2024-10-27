@@ -5,7 +5,7 @@
             <li class="explore__user">
                 <div class="explore__content">
                     <a th:href="@{/user/{id}(id = ${following.id})}">
-                        <img th:src="${'/upload/'+following.profileImage}" />
+                        <img th:src="${'/upload/'+following.profileImage}" onerror="this.src='/upload/avatar.webp'" />
                     </a>
                     <div class="explore__info">
                         <span class="explore__username" th:text="${following.username}"></span>

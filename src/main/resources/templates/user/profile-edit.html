@@ -4,7 +4,7 @@
 
         <header class="edit-profile__header">
             <div class="fucker-container">
-                <img th:src="${'/upload/'+user.profileImage}" />
+                <img th:src="${'/upload/'+user.profileImage}" onerror="this.src='/upload/avatar.webp'"/>
             </div>
             <!-- master comments -->
             <h1 class="edit-profile__username" th:text="${user.username}"></h1>

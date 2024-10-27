@@ -5,7 +5,7 @@
     <div th:each="image : ${image}">
         <div class="photo u-default-box">
             <header class="photo__header">
-                <img th:src="${'/upload/'+image.user.profileImage}" />
+                <img th:src="${'/upload/'+image.user.profileImage}" onerror="this.src='/upload/avatar.webp'" />
                 <span class="photo__username" th:text="${image.user.username}"></span>
             </header>
             <div class="photo_post_image"> <!-- 사진꽉채우기 css -->
