@@ -39,8 +39,14 @@ public class ImageService {
     }
 
     @Transactional
-    public List<Image> 피드사진(int loginUserId){
-        List<Image> images = imageRepository.mFeed(loginUserId);
+    public List<Image> 피드사진(int loginUserId, String tag){
+        List<Image> images = null;
+        if(tag == null || tag.equals("")){
+            images = imageRepository.mFeed(loginUserId);
+        }
+        else{
+            images = imageRepository.mFeed(tag);
+        }
         for (Image image : images){
             image.setLikeCount(image.getLikes().size());
             //좋아요 상태 여부 등록
