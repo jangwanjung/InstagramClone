@@ -35,7 +35,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/","/user/**","/follow/**","/image/**").authenticated() // 인증된 사용자만 접근 가능
+                        .requestMatchers("/","/user/**","/follow/**","/image/**","/noti/**").authenticated() // 인증된 사용자만 접근 가능
                         .requestMatchers("/admin/**").hasRole("ADMIN") // ROLE_ADMIN 권한 필요
                         .anyRequest().permitAll()
                 )

@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.instagramclone.domain.follow.FollowRepository;
+import project.instagramclone.domain.noti.NotiRepository;
+import project.instagramclone.domain.noti.NotiType;
 import project.instagramclone.util.Script;
 import project.instagramclone.web.dto.FollowRespDto;
 
@@ -19,10 +21,15 @@ public class FollowService {
     @PersistenceContext
     private EntityManager em;
     private final FollowRepository followRepository;
+    private final NotiRepository notiRepository;
 
     @Transactional
     public void 팔로우(int loginUserId, int pageUserId){
         followRepository.mFollow(loginUserId, pageUserId);
+        System.out.println(111111);
+        notiRepository.mSave(loginUserId, pageUserId, NotiType.FOLLOW.name());
+        System.out.println(22222222);
+
     }
 
     @Transactional

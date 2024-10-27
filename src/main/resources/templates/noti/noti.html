@@ -1,0 +1,19 @@
+<header th:replace="layout/header :: header"></header>
+<main id="explore">
+    <ul class="explore__users u-default-box">
+        <div th:each="noti : ${notis}">
+            <li class="explore__user">
+                <div class="explore__content">
+                    <a th:href="${'/user/'+noti.fromUser.id}">
+                        <img th:src="${'/upload/'+noti.fromUser.profileImage}" onerror="this.src='/upload/avatar.webp'" />
+                    </a>
+                    <div class="explore__info">
+                        <span class="explore__username" th:text="${noti.fromUser.name}+' 님이 '+${noti.notiType.key}+' 하였습니다.'"></span>
+                    </div>
+                </div>
+            </li>
+        </div>
+    </ul>
+</main>
+<script src="/js/follow.js"></script>
+<footer th:replace="layout/footer :: footer"></footer>

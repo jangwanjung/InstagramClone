@@ -3,6 +3,7 @@ package project.instagramclone.handler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+import project.instagramclone.handler.ex.MyImageIdNotFoundException;
 import project.instagramclone.handler.ex.MyUserIdNotFoundException;
 import project.instagramclone.handler.ex.MyUsernameNotFoundException;
 import project.instagramclone.util.Script;
@@ -24,6 +25,11 @@ public class GlobalExceptionHandler { //이것을 사용하면 모든 컨트롤�
 
     @ExceptionHandler(value =IllegalArgumentException.class)
     public String myIllegalArgumentException(Exception e){
+        return Script.alert(e.getMessage());
+    }
+
+    @ExceptionHandler(value = MyImageIdNotFoundException.class)
+    public String myImageIdNotFoundException(Exception e){
         return Script.alert(e.getMessage());
     }
 }
