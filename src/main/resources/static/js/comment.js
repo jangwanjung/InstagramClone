@@ -1,11 +1,12 @@
-function commentSend(){
-    if($("#content").val() === ""){
-        alert("댓글 입력이 필요합니다.")
-        console.log($("#content").val());
+function commentSend(imageId){
+    let content = $("#content-"+imageId).val();
+    if(content == "" || content == "null"){
+        alert("댓글 입력이 필요합니다.");
         return;
     }
-    let data = $("#frm").serialize();
+    let data = $("#frm-"+imageId).serialize();
     console.log(data);
+    alert(data)
 
     fetch("/comment", {
         method: "post",
