@@ -35,8 +35,7 @@ public class Comment {
     @CreationTimestamp
     private Timestamp createDate;
 
-
-
-
+    @Transient
+    private boolean commentHost;
 
 }

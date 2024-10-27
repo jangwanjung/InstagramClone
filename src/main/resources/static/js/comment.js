@@ -6,7 +6,6 @@ function commentSend(imageId){
     }
     let data = $("#frm-"+imageId).serialize();
     console.log(data);
-    alert(data)
 
     fetch("/comment", {
         method: "post",
@@ -20,4 +19,14 @@ function commentSend(imageId){
         alert("댓글 작성 완료");
         location.reload();
     });
+}
+function commentDelete(commentId){
+    fetch("/comment/"+commentId, {
+        method: "delete"
+    }).then(function (res){
+        return res.text();
+    }).then(function (res){
+        alert("댓글 삭제 성공");
+        location.reload();
+    })
 }

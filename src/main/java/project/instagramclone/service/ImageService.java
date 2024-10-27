@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.instagramclone.domain.comment.Comment;
 import project.instagramclone.domain.image.Image;
 import project.instagramclone.domain.image.ImageRepository;
 import project.instagramclone.domain.like.Likes;
@@ -42,9 +43,16 @@ public class ImageService {
         List<Image> images = imageRepository.mFeed(loginUserId);
         for (Image image : images){
             image.setLikeCount(image.getLikes().size());
+            //좋아요 상태 여부 등록
             for(Likes like : image.getLikes()){
                 if(like.getUser().getId() == loginUserId){
                     image.setLikeState(true);
+                }
+            }
+            //댓글 주인 여부 등록
+            for(Comment comment : image.getComments()){
+                if(comment.getUser().getId() == loginUserId){
+                    comment.setCommentHost(true);
                 }
             }
         }

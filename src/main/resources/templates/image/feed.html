@@ -35,8 +35,16 @@
                 <ul class="photo__comments">
                     <div th:each="comment : ${image.comments}">
                         <li class="photo__comment">
-                            <span class="photo__comment-author" th:text="${comment.user.username}"></span>
-                            <span style="font-size: 12px" th:text="${comment.content}"></span>
+                            <div style="display: flex ; justify-content: space-between">
+                                <div>
+                                    <span class="photo__comment-author" th:text="${comment.user.username}"></span>
+                                    <span style="font-size: 12px" th:text="${comment.content}"></span>
+                                </div>
+                                <div th:if="${comment.commentHost}">
+                                    <i th:onclick="commentDelete([[${comment.id}]])" class="fa fa-trash"></i>
+                                </div>
+                            </div>
+
                         </li>
                     </div>
                 </ul>
